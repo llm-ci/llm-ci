@@ -20,7 +20,6 @@
     "pnpm": "10.12.4"
   },
   "author": "ToyB0x",
-  "license": "MIT",
   "homepage": "https://github.com/llm-ci/llm-ci",
   "bugs": {
     "url": "https://github.com/llm-ci/llm-ci/issues"

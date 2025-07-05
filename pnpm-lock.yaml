@@ -15,6 +15,78 @@ importers:
         specifier: 2.5.4
         version: 2.5.4
 
+  apps/api:
+    devDependencies:
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
+      '@types/node':
+        specifier: 24.0.10
+        version: 24.0.10
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+
+  apps/cli:
+    devDependencies:
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
+      '@types/node':
+        specifier: 24.0.10
+        version: 24.0.10
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+
+  apps/docs:
+    devDependencies:
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
+      '@types/node':
+        specifier: 24.0.10
+        version: 24.0.10
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+
+  apps/web:
+    devDependencies:
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
+      '@types/node':
+        specifier: 24.0.10
+        version: 24.0.10
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+
+  packages/core:
+    devDependencies:
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
+      '@types/node':
+        specifier: 24.0.10
+        version: 24.0.10
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+
+  packages/db:
+    devDependencies:
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
+      '@types/node':
+        specifier: 24.0.10
+        version: 24.0.10
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+
 packages:
 
   '@biomejs/biome@2.0.6':
@@ -70,6 +142,12 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@tsconfig/strictest@2.0.5':
+    resolution: {integrity: sha512-ec4tjL2Rr0pkZ5hww65c+EEPYwxOi4Ryv+0MtjeaSQRJyq322Q27eOQiFbuNgw2hpL4hB1/W/HBGk3VKS43osg==}
+
+  '@types/node@24.0.10':
+    resolution: {integrity: sha512-ENHwaH+JIRTDIEEbDK6QSQntAYGtbvdDXnMXnZaZ6k13Du1dPMmprkEHIL7ok2Wl2aZevetwTAb5S+7yIF+enA==}
+
   turbo-darwin-64@2.5.4:
     resolution: {integrity: sha512-ah6YnH2dErojhFooxEzmvsoZQTMImaruZhFPfMKPBq8sb+hALRdvBNLqfc8NWlZq576FkfRZ/MSi4SHvVFT9PQ==}
     cpu: [x64]
@@ -103,6 +181,14 @@ packages:
   turbo@2.5.4:
     resolution: {integrity: sha512-kc8ZibdRcuWUG1pbYSBFWqmIjynlD8Lp7IB6U3vIzvOv9VG+6Sp8bzyeBWE3Oi8XV5KsQrznyRTBPvrf99E4mA==}
     hasBin: true
+
+  typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  undici-types@7.8.0:
+    resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
 
 snapshots:
 
@@ -141,6 +227,12 @@ snapshots:
   '@biomejs/cli-win32-x64@2.0.6':
     optional: true
 
+  '@tsconfig/strictest@2.0.5': {}
+
+  '@types/node@24.0.10':
+    dependencies:
+      undici-types: 7.8.0
+
   turbo-darwin-64@2.5.4:
     optional: true
 
@@ -167,3 +259,7 @@ snapshots:
       turbo-linux-arm64: 2.5.4
       turbo-windows-64: 2.5.4
       turbo-windows-arm64: 2.5.4
+
+  typescript@5.8.3: {}
+
+  undici-types@7.8.0: {}
