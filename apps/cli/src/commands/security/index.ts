@@ -1,4 +1,5 @@
 import { Command, Option } from "@commander-js/extra-typings";
+import { mastra } from "../../mastra";
 
 export const makeSecurityCommand = () => {
   const security = new Command("security");
@@ -8,12 +9,27 @@ export const makeSecurityCommand = () => {
     .command("scan", { isDefault: true })
     .description("check security")
     .addOption(
+      new Option("-p, --path <string>", "path to the file or directory"),
+    )
+    .addOption(
       new Option("-l, --lang <string>", "language of report")
         .choices(["en", "ja"])
         .default("en", "English"),
     )
     .action(async (options) => {
-      console.log(options.lang);
+      const run = await mastra.getWorkflow("reviewWorkflow").createRunAsync();
+      const result = await run.start({
+        inputData: {
+          lang: options.lang,
+          filePath: options.path,
+        },
+      });
+
+      if (result.status !== "success") {
+        throw Error(result.status);
+      }
+
+      console.log("Report:", result.result.comment);
     });
 
   return security;

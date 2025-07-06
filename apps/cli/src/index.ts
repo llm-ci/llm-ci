@@ -6,6 +6,10 @@ import {
   makeSentryCommand,
   makeTypescriptCommand,
 } from "./commands";
+import { mastra } from "./mastra";
+
+// register mastra admin panel
+mastra;
 
 const program = new Command();
 program.addCommand(makeSecurityCommand());
