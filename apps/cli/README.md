@@ -2,12 +2,14 @@
 
 ## Categories
 
-- Bug
-- Docs
-- Security
+### Core Features: actively developed
 - Sentry
 - TypeScript
 
+### Example Code
+- Bug
+- Docs
+- Security
 
 ## NOTE
 
