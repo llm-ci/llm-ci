@@ -13,3 +13,11 @@
 
 - Currently, mastra is not used fully, but only workflows are used.  
   (In the future, we replace mastra workflows with simple workflow libraries, or use mastra fully.)
+
+## Roadmap
+
+- [ ] Add feature to create each categories report (e.g. github issue or commit file, and so on)
+  - [ ] Monthly report
+  - [ ] Weekly report
+  - [ ] Daily report
+  - [ ] Custom report
