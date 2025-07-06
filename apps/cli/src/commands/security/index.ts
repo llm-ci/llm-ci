@@ -26,6 +26,7 @@ export const makeSecurityCommand = () => {
       });
 
       if (result.status !== "success") {
+        console.error(result.status, result);
         throw Error(result.status);
       }
 
