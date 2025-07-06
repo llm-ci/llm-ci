@@ -1,8 +1,10 @@
 {
+  "name": "@llm-ci/cli",
   "private": true,
   "type": "module",
   "scripts": {
-    "cmd": "tsx src/index.ts"
+    "cmd": "tsx src/index.ts",
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "@commander-js/extra-typings": "14.0.0",
