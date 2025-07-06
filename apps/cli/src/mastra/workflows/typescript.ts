@@ -78,7 +78,7 @@ const messageOutputStep = createStep({
   - If it is too slow, explain why it is too slow
   - If it is too slow, suggest fix plan to improve tsc performance with confidence score (2 or 3 suggestions are recommended)
 
-# TSC Targer:
+# TSC Target:
 - Target: ${target}
 
 # TSC Result:
