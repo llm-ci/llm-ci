@@ -1,8 +1,9 @@
 import { Mastra } from "@mastra/core";
-import { reviewWorkflow } from "./workflows";
+import { reviewWorkflow, trivyWorkflow } from "./workflows";
 
 export const mastra: Mastra = new Mastra({
   workflows: {
     reviewWorkflow,
+    trivyWorkflow,
   },
 });
