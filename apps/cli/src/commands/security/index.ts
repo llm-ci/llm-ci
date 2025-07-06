@@ -24,7 +24,7 @@ export const makeSecurityCommand = () => {
       const result = await run.start({
         inputData: {
           lang: options.lang,
-          filePath: options.target,
+          target: options.target,
         },
       });
 
