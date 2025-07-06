@@ -25,7 +25,7 @@ const messageOutputStep = createStep({
   }),
   execute: async ({ inputData }) => {
     const { target, lang } = inputData;
-    const prompt = `Please security review at ${target} and related some files in ${lang} (you should finish the code review in 30 turns).`;
+    const prompt = `Please vulnerability scan the code in ${lang} at ${target} and provide a report on potential security issues. (you should finish the code review in 30 turns)`;
 
     const messages: SDKMessage[] = [];
     for await (const message of query({
@@ -35,7 +35,7 @@ const messageOutputStep = createStep({
         maxTurns: 30,
         permissionMode: "bypassPermissions",
         appendSystemPrompt:
-          "You are a security expert. Please review the code and provide a detailed report on potential security issues.",
+          "You are a security expert. You can find vulnerabilities in code and provide detailed reports on potential security issues.",
       },
     })) {
       messages.push(message);
