@@ -9,7 +9,10 @@ export const makeSecurityCommand = () => {
     .command("scan", { isDefault: true })
     .description("check security")
     .addOption(
-      new Option("-p, --path <string>", "path to the file or directory"),
+      new Option(
+        "-t, --target <string>",
+        "target file path or directory to scan",
+      ),
     )
     .addOption(
       new Option("-l, --lang <string>", "language of report")
@@ -21,11 +24,12 @@ export const makeSecurityCommand = () => {
       const result = await run.start({
         inputData: {
           lang: options.lang,
-          filePath: options.path,
+          target: options.target,
         },
       });
 
       if (result.status !== "success") {
+        console.error(result.status, result);
         throw Error(result.status);
       }
 
