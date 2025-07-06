@@ -3,7 +3,7 @@ import { query, type SDKMessage } from "@anthropic-ai/claude-code";
 import { createStep, createWorkflow } from "@mastra/core/workflows";
 import { z } from "zod";
 
-const maxTurns = 100;
+const maxTurns = 300;
 
 export const trivyWorkflow = createWorkflow({
   id: "trivyWorkflow",
@@ -25,6 +25,7 @@ const trivyScanStep = createStep({
     lockFile: z.string(),
   }),
   outputSchema: z.object({
+    lang: z.string(),
     scanResult: z.string(),
   }),
   execute: async ({ inputData }) => {
@@ -39,6 +40,7 @@ const trivyScanStep = createStep({
     const resultTextTable = result.toString();
     console.log(resultTextTable);
     return {
+      lang: inputData.lang,
       scanResult: resultTextTable,
     };
   },
@@ -58,17 +60,23 @@ const messageOutputStep = createStep({
   execute: async ({ inputData }) => {
     const { scanResult, lang } = inputData;
     const prompt = `
+# Language:
+- You should speak and write in ${lang}.
+
 # Background:
 - Below scan result is our service security scan result. It may contain vulnerabilities detail URLs.
 
 # Rules:
 - The report should be in ${lang} and you should finish the code review in ${maxTurns} turns.
 - You should also show us which URLs you opened and what you found in the URLs.
+- Do not read raw lock file (yarn.lock, pnpm-lock.yaml...) as it it too large and bad affect to your context memory size.
 
 # Your Task:
 - You should read below scan result and open the detail URLs and read vulnerability details.
 - You should create action list with consideration of each vulnerability risk level.
-- You should search the code (eg, .ts and .tsx files) where the vulnerability library is actually being used
+- You should search the application code (eg, .ts and .tsx files) where the vulnerability library is actually being used
+  - You should search only files with have extension .ts or .tsx. (for speed up search)
+  - Your should exclude files in node_modules, dist, build, and public directories.
   - If vulnerability library is actually being used, check whether it is exposed to an attack surface that can be exploited by crackers.
 
 # Report Format:
@@ -79,9 +87,6 @@ const messageOutputStep = createStep({
   - Where the vulnerability is used in the actual app (file path)
   - Whether the implementation of the actual app is affected by the vulnerability
   - Details of the vulnerability
-
-# Report Language:
-- The report should be written in ${lang}.
 
 # Scan Result:
 ${scanResult}
@@ -96,7 +101,7 @@ ${scanResult}
         permissionMode: "bypassPermissions",
         appendSystemPrompt: `
 You are a security expert. You can find vulnerabilities in code and provide detailed reports on potential security issues.
-**IMPORTANT** The report should be written in ${lang} 
+**IMPORTANT** You should speak and write in ${lang}.
 `,
       },
     })) {
