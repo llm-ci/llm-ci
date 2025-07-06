@@ -25,7 +25,9 @@ const messageOutputStep = createStep({
   }),
   execute: async ({ inputData }) => {
     const { target, lang } = inputData;
-    const prompt = `Please vulnerability scan the code in ${lang} at ${target} and provide a report on potential security issues. (you should finish the code review in 30 turns)`;
+    const prompt = `
+Please vulnerability scan the code at ${target} and provide a report on potential security issues.
+The report should be in ${lang} and you should finish the code review in 30 turns`;
 
     const messages: SDKMessage[] = [];
     for await (const message of query({

@@ -1,6 +1,12 @@
 import { Command, Option } from "@commander-js/extra-typings";
 import { mastra } from "../../mastra";
 
+const supportedLanguages = {
+  ja: "Japanese",
+  en: "English",
+  zh: "Chinese",
+} as const;
+
 export const makeSecurityCommand = () => {
   const security = new Command("security");
   security.description("security related commands.");
@@ -16,14 +22,14 @@ export const makeSecurityCommand = () => {
     )
     .addOption(
       new Option("-l, --lang <string>", "language of report")
-        .choices(["en", "ja"])
+        .choices(["en", "ja", "zh"])
         .default("en", "English"),
     )
     .action(async (options) => {
       const run = await mastra.getWorkflow("reviewWorkflow").createRunAsync();
       const result = await run.start({
         inputData: {
-          lang: options.lang,
+          lang: supportedLanguages[options.lang],
           target: options.target,
         },
       });
