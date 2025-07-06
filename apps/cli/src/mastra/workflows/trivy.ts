@@ -26,10 +26,12 @@ const trivyScanStep = createStep({
   }),
   outputSchema: z.object({
     lang: z.string(),
+    target: z.string(),
+    lockFile: z.string(),
     scanResult: z.string(),
   }),
   execute: async ({ inputData }) => {
-    const { target, lockFile } = inputData;
+    const { lang, target, lockFile } = inputData;
     const result = execSync(
       `docker run -v $PWD:/myapp aquasec/trivy fs /myapp/${lockFile} --quiet`,
       {
@@ -40,7 +42,9 @@ const trivyScanStep = createStep({
     const resultTextTable = result.toString();
     console.log(resultTextTable);
     return {
-      lang: inputData.lang,
+      lang,
+      target,
+      lockFile,
       scanResult: resultTextTable,
     };
   },
@@ -52,13 +56,14 @@ const messageOutputStep = createStep({
   inputSchema: z.object({
     lang: z.string(),
     target: z.string(),
+    lockFile: z.string(),
     scanResult: z.string(),
   }),
   outputSchema: z.object({
     comment: z.string(),
   }),
   execute: async ({ inputData }) => {
-    const { scanResult, lang } = inputData;
+    const { scanResult, lang, target, lockFile } = inputData;
     const prompt = `
 # Language:
 - You should speak and write in ${lang}.
@@ -69,7 +74,7 @@ const messageOutputStep = createStep({
 # Rules:
 - The report should be in ${lang} and you should finish the code review in ${maxTurns} turns.
 - You should also show us which URLs you opened and what you found in the URLs.
-- Do not read raw lock file (yarn.lock, pnpm-lock.yaml...) as it it too large and bad affect to your context memory size.
+- Do not read entire lock file (yarn.lock, pnpm-lock.yaml...) as it it too large and bad affect to your context memory size. (use grep command to reduce matching lines)
 
 # Your Task:
 - You should read below scan result and open the detail URLs and read vulnerability details.
@@ -87,6 +92,16 @@ const messageOutputStep = createStep({
   - Where the vulnerability is used in the actual app (file path)
   - Whether the implementation of the actual app is affected by the vulnerability
   - Details of the vulnerability
+
+# Important Notes:
+- If you can't access the URLs, or can't obtain the vulnerability details, please use following tool:
+  - Tool Site: 'https://r.jina.ai/' (This service limited to 20 requests per minute for free users, if you need more access please wait or stop the workflow. Becase this is a example code.)
+  - Tool Description: 'This tool can access URLs and extract the content of the page like this way.'
+    - Usage: 'https://r.jina.ai/https://[your-target-domain]/[your-target-path]'
+
+# Scan Targer:
+- Target: ${target}
+- Lock File: ${lockFile}
 
 # Scan Result:
 ${scanResult}
