@@ -6,7 +6,7 @@ export const reviewWorkflow = createWorkflow({
   id: "reviewWorkflow",
   inputSchema: z.object({
     lang: z.string(),
-    filePath: z.string(),
+    target: z.string(),
   }),
   outputSchema: z.object({
     comment: z.string(),
@@ -18,14 +18,14 @@ const messageOutputStep = createStep({
   description: "This step outputs the message to the console",
   inputSchema: z.object({
     lang: z.string(),
-    filePath: z.string(),
+    target: z.string(),
   }),
   outputSchema: z.object({
     comment: z.string(),
   }),
   execute: async ({ inputData }) => {
-    const { filePath, lang } = inputData;
-    const prompt = `Please security review file at ${filePath} and related some files in ${lang} (you should finish the code review in 30 turns).`;
+    const { target, lang } = inputData;
+    const prompt = `Please security review at ${target} and related some files in ${lang} (you should finish the code review in 30 turns).`;
 
     const messages: SDKMessage[] = [];
     for await (const message of query({
