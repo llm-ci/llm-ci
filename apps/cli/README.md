@@ -9,6 +9,8 @@
 ### Example Code
 - Bug
 - Docs
+- Container image size 
+- CI/CI time / costs 
 - Security
 
 ## NOTE
