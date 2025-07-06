@@ -2,6 +2,8 @@ import { query, type SDKMessage } from "@anthropic-ai/claude-code";
 import { createStep, createWorkflow } from "@mastra/core/workflows";
 import { z } from "zod";
 
+const maxTurns = 30;
+
 export const reviewWorkflow = createWorkflow({
   id: "reviewWorkflow",
   inputSchema: z.object({
@@ -27,14 +29,14 @@ const messageOutputStep = createStep({
     const { target, lang } = inputData;
     const prompt = `
 Please vulnerability scan the code at ${target} and provide a report on potential security issues.
-The report should be in ${lang} and you should finish the code review in 30 turns`;
+The report should be in ${lang} and you should finish the code review in ${maxTurns} turns`;
 
     const messages: SDKMessage[] = [];
     for await (const message of query({
       prompt,
       abortController: new AbortController(),
       options: {
-        maxTurns: 30,
+        maxTurns,
         permissionMode: "bypassPermissions",
         appendSystemPrompt:
           "You are a security expert. You can find vulnerabilities in code and provide detailed reports on potential security issues.",
