@@ -69,6 +69,7 @@ const messageOutputStep = createStep({
 - Understand diagnostics result.
 - If the result meaning tsc too slow, you must research reason why tsc is too slow in the package. (package dir is ${target})
 - If you can, you suggest fix plan to improve tsc performance with confidence score.
+- Do not modify code, just only do analysis.
 - You must done this task within ${maxTurns} turns.
 
 # Report Format:
