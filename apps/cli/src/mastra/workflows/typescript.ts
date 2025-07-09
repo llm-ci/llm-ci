@@ -1,7 +1,7 @@
-import { createWorkflow } from "@mastra/core/workflows";
+import { cloneWorkflow, createWorkflow } from "@mastra/core/workflows";
 import {
   schemaGitWorktree,
-  workflowCreatePP,
+  workflowCreatePR,
   workflowSetupWorktree,
   workflowTeardownWorktree,
 } from "./git";
@@ -14,14 +14,20 @@ export const workflowTsPerf = createWorkflow({
   inputSchema: schemaGitWorktree,
   outputSchema: schemaGitWorktree,
   // @ts-expect-error: exactOptionalPropertyTypes ref: https://github.com/mastra-ai/mastra/issues/3046
-  steps: [workflowSetupWorktree, workflowCreatePP, workflowTeardownWorktree],
+  steps: [workflowSetupWorktree, workflowCreatePR, workflowTeardownWorktree],
 });
+
+const clonedCreatePRWorkflows = [1, 2, 3, 4, 5].map((i) =>
+  cloneWorkflow(workflowCreatePR, {
+    id: "PR #" + i,
+  }),
+);
 
 workflowTsPerf
   // @ts-expect-error: exactOptionalPropertyTypes ref: https://github.com/mastra-ai/mastra/issues/3046
   .then(workflowSetupWorktree)
   // @ts-expect-error: exactOptionalPropertyTypes ref: https://github.com/mastra-ai/mastra/issues/3046
-  .then(workflowCreatePP)
+  .parallel([...clonedCreatePRWorkflows])
   // @ts-expect-error: exactOptionalPropertyTypes ref: https://github.com/mastra-ai/mastra/issues/3046
   .then(workflowTeardownWorktree)
   .commit();

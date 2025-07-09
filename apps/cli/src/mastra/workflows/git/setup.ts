@@ -13,7 +13,7 @@ export const WORKFLOW_SETUP_WORKTREE = "workflow-setup-worktree";
 export const workflowSetupWorktree = createWorkflow({
   id: WORKFLOW_SETUP_WORKTREE,
   description:
-    "Workflow to set up a git worktree for TypeScript performance testing (including branch creation, package installation, build, and type checking)",
+    "Create git worktree / git branch, run package install, build, and type checking)",
   inputSchema: schemaGitWorktree,
   outputSchema: schemaGitWorktree,
   steps: [
