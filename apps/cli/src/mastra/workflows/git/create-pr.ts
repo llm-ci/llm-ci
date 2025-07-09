@@ -4,7 +4,7 @@ import { stepGitCreatePR, stepGitPush } from "./steps";
 
 export const WORKFLOW_CRATE_PR = "workflow-create-pr";
 
-export const workflowCreatePP = createWorkflow({
+export const workflowCreatePR = createWorkflow({
   id: WORKFLOW_CRATE_PR,
   inputSchema: schemaGitWorktree,
   outputSchema: schemaGitWorktree,
@@ -16,4 +16,4 @@ export const workflowCreatePP = createWorkflow({
   },
 });
 
-workflowCreatePP.then(stepGitPush).then(stepGitCreatePR).commit();
+workflowCreatePR.then(stepGitPush).then(stepGitCreatePR).commit();
